@@ -1,8 +1,8 @@
 require 'fileutils'
 require 'digest/sha2'
 
-module Technoweenie # :nodoc:
-  module AttachmentFu # :nodoc:
+module AttachmentFu # :nodoc:
+  module Attachment # :nodoc:
     module Backends
       # Methods for file system backed attachments
       module FileSystemBackend

@@ -1,5 +1,5 @@
-module Technoweenie # :nodoc:
-  module AttachmentFu # :nodoc:
+module AttachmentFu # :nodoc:
+  module Attachment # :nodoc:
     module Backends
       # = AWS::S3 Storage Backend
       #
@@ -223,19 +223,19 @@ module Technoweenie # :nodoc:
 
         module ClassMethods
           def s3_protocol
-            Technoweenie::AttachmentFu::Backends::S3Backend.protocol
+            AttachmentFu::AttachmentFu::Backends::S3Backend.protocol
           end
 
           def s3_hostname
-            Technoweenie::AttachmentFu::Backends::S3Backend.hostname
+            AttachmentFu::AttachmentFu::Backends::S3Backend.hostname
           end
 
           def s3_port_string
-            Technoweenie::AttachmentFu::Backends::S3Backend.port_string
+            AttachmentFu::AttachmentFu::Backends::S3Backend.port_string
           end
           
           def cloudfront_distribution_domain
-            Technoweenie::AttachmentFu::Backends::S3Backend.distribution_domain
+            AttachmentFu::AttachmentFu::Backends::S3Backend.distribution_domain
           end
         end
 
@@ -337,19 +337,19 @@ module Technoweenie # :nodoc:
         end
 
         def s3_protocol
-          Technoweenie::AttachmentFu::Backends::S3Backend.protocol
+          AttachmentFu::AttachmentFu::Backends::S3Backend.protocol
         end
 
         def s3_hostname
-          Technoweenie::AttachmentFu::Backends::S3Backend.hostname
+          AttachmentFu::AttachmentFu::Backends::S3Backend.hostname
         end
 
         def s3_port_string
-          Technoweenie::AttachmentFu::Backends::S3Backend.port_string
+          AttachmentFu::AttachmentFu::Backends::S3Backend.port_string
         end
         
         def cloudfront_distribution_domain
-          Technoweenie::AttachmentFu::Backends::S3Backend.distribution_domain
+          AttachmentFu::AttachmentFu::Backends::S3Backend.distribution_domain
         end
 
         protected

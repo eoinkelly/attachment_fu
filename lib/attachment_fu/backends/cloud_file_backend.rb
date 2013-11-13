@@ -1,5 +1,5 @@
-module Technoweenie # :nodoc:
-  module AttachmentFu # :nodoc:
+module AttachmentFu # :nodoc:
+  module Attachment # :nodoc:
     module Backends
       # = CloudFiles Storage Backend
       #

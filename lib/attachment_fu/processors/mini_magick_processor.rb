@@ -1,6 +1,6 @@
 require 'mini_magick'
-module Technoweenie # :nodoc:
-  module AttachmentFu # :nodoc:
+module AttachmentFu # :nodoc:
+  module Attachment # :nodoc:
     module Processors
       module MiniMagickProcessor
         def self.included(base)

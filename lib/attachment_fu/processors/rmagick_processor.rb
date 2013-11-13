@@ -1,6 +1,6 @@
 require 'RMagick'
-module Technoweenie # :nodoc:
-  module AttachmentFu # :nodoc:
+module AttachmentFu # :nodoc:
+  module Attachment # :nodoc:
     module Processors
       module RmagickProcessor
         def self.included(base)

@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'gd2'
-module Technoweenie # :nodoc:
+module AttachmentFu # :nodoc:
   module AttachmentFu # :nodoc:
     module Processors
       module Gd2Processor

@@ -1,7 +1,7 @@
-require 'red_artisan/core_image/processor'
+require 'attachment_fu/red_artisan/core_image/processor'
 
-module Technoweenie # :nodoc:
-  module AttachmentFu # :nodoc:
+module AttachmentFu # :nodoc:
+  module Attachment # :nodoc:
     module Processors
       module CoreImageProcessor
         def self.included(base)
@@ -45,7 +45,7 @@ module Technoweenie # :nodoc:
               self.width  = result.extent.size.width  if respond_to?(:width)
               self.height = result.extent.size.height if respond_to?(:height)
               out_file = random_tempfile_filename
-              temp_paths.unshift Tempfile.new(out_file, Technoweenie::AttachmentFu.tempfile_path).path
+              temp_paths.unshift Tempfile.new(out_file, AttachmentFu::AttachmentFu.tempfile_path).path
               properties = nil
               # We don't check the source image since we're forcing the output to JPEG, apparently…
               # Beware: apparently CoreImage only takes the percentage as a HINT, using a different actual quality…

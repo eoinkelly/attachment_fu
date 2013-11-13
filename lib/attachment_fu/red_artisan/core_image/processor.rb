@@ -2,12 +2,12 @@ require 'rubygems'
 require 'osx/cocoa'
 require 'active_support'
 
-require 'red_artisan/core_image/filters/scale'
-require 'red_artisan/core_image/filters/color'
-require 'red_artisan/core_image/filters/watermark'
-require 'red_artisan/core_image/filters/quality'
-require 'red_artisan/core_image/filters/perspective'
-require 'red_artisan/core_image/filters/effects'
+require 'attachment_fu/red_artisan/core_image/filters/scale'
+require 'attachment_fu/red_artisan/core_image/filters/color'
+require 'attachment_fu/red_artisan/core_image/filters/watermark'
+require 'attachment_fu/red_artisan/core_image/filters/quality'
+require 'attachment_fu/red_artisan/core_image/filters/perspective'
+require 'attachment_fu/red_artisan/core_image/filters/effects'
 
 # Generic image processor for scaling images based on CoreImage via RubyCocoa.
 #
@@ -53,7 +53,7 @@ require 'red_artisan/core_image/filters/effects'
 # * Vasantha Crabb for general help and inspiration with Cocoa
 # * Ben Schwarz for example image data and collaboration during performance testing
 #
-# Copyright (c) Marcus Crafter <crafterm@redartisan.com> released under the MIT license
+# Copyright (c) Marcus Crafter <crafterm@attachment_fu/redartisan.com> released under the MIT license
 #
 module RedArtisan
   module CoreImage
