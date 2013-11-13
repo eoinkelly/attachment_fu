@@ -1,7 +1,7 @@
 attachment-fu
 =============
 
-attachment_fu is a plugin by Rick Olson (aka technoweenie <http://techno-weenie.net>) and is the successor to acts_as_attachment.  To get a basic run-through of its capabilities, check out Mike Clark's tutorial <http://clarkware.com/cgi/blosxom/2007/02/24#FileUploadFu>.
+attachment_fu is a plugin by Rick Olson (aka technoweenie <http://techno-weenie.net>) and is the successor to `acts_as_attachment`.  To get a basic run-through of its capabilities, check out Mike Clark's tutorial <http://clarkware.com/cgi/blosxom/2007/02/24#FileUploadFu>.
 
 
 attachment_fu functionality
@@ -10,21 +10,27 @@ attachment_fu functionality
 attachment_fu facilitates file uploads in Ruby on Rails.  There are a few storage options for the actual file data, but the plugin always at a minimum stores metadata for each file in the database.
 
 There are four storage options for files uploaded through attachment_fu:
-  File system
-  Database file
-  Amazon S3
-  Rackspace (Mosso) Cloud Files
 
-Each method of storage many options associated with it that will be covered in the following section.  Something to note, however, is that the Amazon S3 storage requires you to modify config/amazon_s3.yml, the Rackspace Cloud Files storage requires you to modify config/rackspace_cloudfiles.yml, and the Database file storage requires an extra table.
+1. File system
+2. Database file
+3. Amazon S3
+4. Rackspace (Mosso) Cloud Files
+
+Each method of storage many options associated with it that will be covered in the following section.  Something to note, however, is that the Amazon S3 storage requires you to modify `config/amazon_s3.yml`, the Rackspace Cloud Files storage requires you to modify `config/rackspace_cloudfiles.yml`, and the Database file storage requires an extra table.
 
 
 attachment_fu models
 ====================
 
-For all three of these storage options a table of metadata is required.  This table will contain information about the file (hence the 'meta') and its location.  This table has no restrictions on naming, unlike the extra table required for database storage, which must have a table name of db_files (and by convention a model of DbFile).
+For all three of these storage options a table of metadata is required.  This table will contain information about the file (hence the 'meta') and its location.  This table has no restrictions on naming, unlike the extra table required for database storage, which must have a table name of `db_files` (and by convention a model of `DbFile`).
 
-In the model there are two methods made available by this plugins: has_attachment and validates_as_attachment.
+In the model there are two methods made available by this plugins: 
 
+1. `has_attachment` 
+2. `validates_as_attachment`
+
+### has_attachment
+```
 has_attachment(options = {})
   This method accepts the options in a hash:
     :content_type         # Allowed content types.
@@ -95,9 +101,10 @@ has_attachment(options = {})
     :association_options  # attachment_fu automatically defines associations with thumbnails with has_many and
                           # belongs_to. If there are any additional options that you want to pass to these methods,
                           # then specify them here.
+```
 
-
-  Examples:
+Examples:
+```
     has_attachment :max_size => 1.kilobyte
     has_attachment :size => 1.megabyte..2.megabytes
     has_attachment :content_type => 'application/pdf'
@@ -107,9 +114,9 @@ has_attachment(options = {})
     has_attachment :thumbnails => { :thumb => [50, 50], :geometry => 'x50' }
     has_attachment :storage => :file_system, :path_prefix => 'public/files'
     has_attachment :storage => :file_system, :path_prefix => 'public/files',
-                   :content_type => :image, :resize_to => [50,50], :partition => false
+                  :content_type => :image, :resize_to => [50,50], :partition => false
     has_attachment :storage => :file_system, :path_prefix => 'public/files',
-                   :thumbnails => { :thumb => [50, 50], :geometry => 'x50' }
+                  :thumbnails => { :thumb => [50, 50], :geometry => 'x50' }
     has_attachment :storage => :s3
     has_attachment :store => :s3, :cloudfront => true
     has_attachment :storage => :cloud_files
@@ -132,19 +139,23 @@ has_attachment(options = {})
     has_attachment :thumbnails => { :thumb => [50, 50], :geometry => 'x50' },
       :jpeg_quality => { '<2000' => 90, '>=2000' => 75 }
 }
+```
 
+### validates_as_attachment
+This method prevents files outside of the valid range (:min_size to :max_size, or the :size range) from being saved.  It does not however, halt the upload of such files.  They will be uploaded into memory regardless of size before validation.
+
+Example:
+```
 validates_as_attachment
-  This method prevents files outside of the valid range (:min_size to :max_size, or the :size range) from being saved.  It does not however, halt the upload of such files.  They will be uploaded into memory regardless of size before validation.
-
-  Example:
-    validates_as_attachment
+```
 
 
 attachment_fu migrations
 ========================
 
 Fields for attachment_fu metadata tables...
-  in general:
+in general:
+```
     size,         :integer  # file size in bytes
     content_type, :string   # mime type, ex: application/mp3
     filename,     :string   # sanitized filename
@@ -168,33 +179,41 @@ Fields for attachment_fu metadata tables...
                             # @user.avatar.thumbnails.first.thumbnail #=> 'small'
   that reference files stored in the database (:db_file):
     db_file_id,   :integer  # id of the file in the database (foreign key)
+```
 
 Field for attachment_fu db_files table:
+```
   data, :binary # binary file data, for use in database file storage
+```
 
 
 attachment_fu views
 ===================
 
-There are two main views tasks that will be directly affected by attachment_fu: upload forms and displaying uploaded images.
+There are two main views tasks that will be directly affected by attachment_fu: upload forms and displaying uploaded images. There are two parts of the upload form that differ from typical usage.
 
-There are two parts of the upload form that differ from typical usage.
-  1. Include ':multipart => true' in the html options of the form_for tag.
+1. Include ':multipart => true' in the html options of the form_for tag.
     Example:
-      <% form_for(:attachment_metadata, :url => { :action => "create" }, :html => { :multipart => true }) do |form| %>
+    ```
+    <% form_for(:attachment_metadata, :url => { :action => "create" }, :html => { :multipart => true }) do |form| %>
+    ```
 
-  2. Use the file_field helper with :uploaded_data as the field name.
+2. Use the file_field helper with :uploaded_data as the field name.
     Example:
-      <%= form.file_field :uploaded_data %>
+    ```
+    <%= form.file_field :uploaded_data %>
+    ```
 
 Displaying uploaded images is made easy by the public_filename method of the ActiveRecord attachment objects using file system, s3, and Cloud Files storage.
 
+```
 public_filename(thumbnail = nil)
   Returns the public path to the file.  If a thumbnail prefix is specified it will return the public file path to the corresponding thumbnail.
   Examples:
     attachment_obj.public_filename          #=> /attachments/2/file.jpg
     attachment_obj.public_filename(:thumb)  #=> /attachments/2/file_thumb.jpg
     attachment_obj.public_filename(:small)  #=> /attachments/2/file_small.jpg
+```
 
 When serving files from database storage, doing more than simply downloading the file is beyond the scope of this document.
 
@@ -207,18 +226,22 @@ There are two considerations to take into account when using attachment_fu in co
 The first is when the files have no publicly accessible path and need to be downloaded through an action.
 
 Example:
-  def readme
-    send_file '/path/to/readme.txt', :type => 'plain/text', :disposition => 'inline'
-  end
+```
+def readme
+  send_file '/path/to/readme.txt', :type => 'plain/text', :disposition => 'inline'
+end
+```
 
 See the possible values for send_file for reference.
 
-
 The second is when saving the file when submitted from a form.
 Example in view:
+```
  <%= form.file_field :attachable, :uploaded_data %>
+```
 
 Example in controller:
+```
   def create
     @attachable_file = AttachmentMetadataModel.new(params[:attachable])
     if @attachable_file.save
@@ -228,6 +251,7 @@ Example in controller:
       render :action => :new
     end
   end
+```
 
 attachement_fu scripting
 ====================================
@@ -235,8 +259,11 @@ attachement_fu scripting
 You may wish to import a large number of images or attachments.
 The following example shows how to upload a file from a script.
 
+```
 #!/usr/bin/env ./script/runner
+```
 
+```
 # required to use ActionController::TestUploadedFile
 require 'action_controller'
 require 'action_controller/test_process.rb'
@@ -251,3 +278,4 @@ mimetype = "image/jpeg"
 # This will "upload" the file at path and create the new model.
 @attachable = AttachmentMetadataModel.new(:uploaded_data => ActionController::TestUploadedFile.new(path, mimetype))
 @attachable.save
+``` 
